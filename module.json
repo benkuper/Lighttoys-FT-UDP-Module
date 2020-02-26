@@ -1,0 +1,595 @@
+{
+	"name":"Lighttoys FT UDP",
+	"type":"UDP",
+	"path":"Lighttoys",
+	
+	"version":"1.0.4",
+	"description":"Control Lighttoys FT devices using the FT Remote and this module !",
+	"url":"https://github.com/benkuper/Lighttoys-FT-UDP-Module",
+	"downloadURL":"https://github.com/benkuper/Lighttoys-FT-UDP-Module/archive/master.zip",
+	
+	"hasInput":true,
+	"hasOutput":true, 
+
+	"hideDefaultCommands":true,
+
+	"parameters":
+	{
+		"Always Update":{"type":"Boolean", "description":"If checked, will always update using the update rate parameter"},
+		"Enable Echo": { "type":"Boolean", "description":"If checked, the remote will send echo of sent commands. Uncheck when sending a lot of data to optimize bandwidth.", "value":false },
+		"Ping All": { "type":"Trigger" },
+		"Black Out": { "type": "Trigger" },
+		"Add new pairing group": { "type":"Trigger" },
+		"Add to group": { "type":"Trigger" },
+		"Finish pairing": { "type":"Trigger" },
+
+		"Device Names":
+		{
+			"type":"Container",
+			"collapsed":true,
+
+			"Device 0":  { "type":"String"},
+			"Device 1":  { "type":"String"},
+			"Device 2":  { "type":"String"},
+			"Device 3":  { "type":"String"},
+			"Device 4":  { "type":"String"},
+			"Device 5":  { "type":"String"},
+			"Device 6":  { "type":"String"},
+			"Device 7":  { "type":"String"},
+			"Device 8":  { "type":"String"},
+			"Device 9":  { "type":"String"},
+			"Device 10": { "type":"String"},
+			"Device 11": { "type":"String"},
+			"Device 12": { "type":"String"},
+			"Device 13": { "type":"String"},
+			"Device 14": { "type":"String"},
+			"Device 15": { "type":"String"},
+			"Device 16": { "type":"String"},
+			"Device 17": { "type":"String"},
+			"Device 18": { "type":"String"},
+			"Device 19": { "type":"String"},
+			"Device 20": { "type":"String"},
+			"Device 21": { "type":"String"},
+			"Device 22": { "type":"String"},
+			"Device 23": { "type":"String"},
+			"Device 24": { "type":"String"},
+			"Device 25": { "type":"String"},
+			"Device 26": { "type":"String"},
+			"Device 27": { "type":"String"},
+			"Device 28": { "type":"String"},
+			"Device 29": { "type":"String"},
+			"Device 30": { "type":"String"},
+			"Device 31": { "type":"String"}
+		}
+	},
+
+	"defaults":
+	{		
+		"autoAdd": false,
+		"Input":
+		{
+			"localPort": 8889
+		},
+		"Output":
+		{
+			"local": false,
+			"remotePort": 8888
+		}
+	},
+
+	"hideDefaultParameters":
+	[
+		"protocol",
+		"autoAdd",
+		"splitArguments",
+		"messageStructure",
+		"firstValueIsTheName",
+		"baudRate"
+	],
+
+
+	"scripts":
+	[
+		"LighttoysUDP.js"
+	],
+
+	"values":
+	{
+		"Connected Devices":
+		{
+			"type":"Container",
+
+			"Num Paired":{"type":"Integer", "readOnly":true},
+			"Num Connected":{"type":"Integer", "readOnly":true},
+			"Device 0":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 1":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 2":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 3":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 4":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 5":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 6":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 7":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 8":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 9":  { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 10": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 11": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 12": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 13": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 14": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 15": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 16": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 17": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 18": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 19": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 20": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 21": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 22": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 23": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 24": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 25": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 26": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 27": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 28": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 29": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 30": { "type":"Float", "min":0,"max":15, "readOnly":true},
+			"Device 31": { "type":"Float", "min":0,"max":15, "readOnly":true}
+		}
+	},
+
+	"commands":
+	{
+		"Ping":
+		{
+			"menu":"",
+			"callback":"ping",
+			"parameters":
+			{
+				"Target":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"All":"all",
+						"One":"one",
+						"Range":"range"
+					}
+				},
+
+				"ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"one",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Start ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+				
+				"End ID":
+				{
+					"type":"Integer",
+					"default":9,
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				}
+			}
+		},
+
+
+		"Color":
+		{
+			"menu":"",
+			"callback":"color",
+			"parameters":
+			{
+				"Target":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"All":"all",
+						"One":"one",
+						"Range":"range"
+					}
+				},
+
+				"ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"one",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Start ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+				
+				"End ID":
+				{
+					"type":"Integer",
+					"default":9,
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Mode":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"Full":"full",
+						"AB":"ab",
+						"A":"a",
+						"B":"b"
+					}
+				},
+
+				"Color 1":
+				{
+					"type":"Color",
+					"default":[1,0,0,1]
+				},
+
+				"Color 2":
+				{
+					"type":"Color",
+					"default":[0,1,0,1],
+					"dependency": 
+					{
+						"source":"mode",
+						"value":"ab",
+						"check":"equals",
+						"action":"show"
+					}
+				}
+				
+			}
+		},
+
+
+		"Start Show":
+		{
+			"menu":"",
+			"callback":"startShow",
+			"parameters":
+			{
+				"Target":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"All":"all",
+						"One":"one",
+						"Range":"range"
+					}
+				},
+
+				"ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"one",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Start ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+				
+				"End ID":
+				{
+					"type":"Integer",
+					"default":9,
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Show Number":
+				{
+					"type":"Integer",
+					"default":1,
+					"min":1,
+					"max":4
+				},
+
+				"Delay":
+				{
+					"type":"Float",
+					"ui":"time"					
+				},
+
+				"Start Time":
+				{
+					"type":"Float",
+					"ui":"time"
+				}
+
+			}
+		},
+
+		"Stop Show":
+		{
+			"menu":"",
+			"callback":"stopShow",
+			"parameters":
+			{
+				"Target":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"All":"all",
+						"One":"one",
+						"Range":"range"
+					}
+				},
+
+				"ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"one",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Start ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+				
+				"End ID":
+				{
+					"type":"Integer",
+					"default":9,
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				}
+			}
+		},
+
+		"Black Out":
+		{
+			"menu":"",
+			"callback":"blackOut",
+			"parameters":
+			{
+				"Target":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"All":"all",
+						"One":"one",
+						"Range":"range"
+					}
+				},
+
+				"ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"one",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Start ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+				
+				"End ID":
+				{
+					"type":"Integer",
+					"default":9,
+					"min":0,
+					"max":31,
+					"dependency": 
+					{
+						"source":"target",
+						"value":"range",
+						"check":"equals",
+						"action":"show"
+					}
+				}
+			}
+		},
+
+		"Gradient":
+		{
+			"menu":"Advanced",
+			"callback":"gradient",
+			"parameters":
+			{
+				"Start ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31
+				},
+				
+				"End ID":
+				{
+					"type":"Integer",
+					"default":9,
+					"min":0,
+					"max":31
+				},
+
+				"Start Color":
+				{
+					"type":"Color",
+					"default":[1,0,0,1]
+				},
+
+				"End Color":
+				{
+					"type":"Color",
+					"default":[0,0,1,1]
+				}
+				
+			}
+		},
+
+		"Point":
+		{
+			"menu":"Advanced",
+			"callback":"point",
+			"parameters":
+			{
+				"Start ID":
+				{
+					"type":"Integer",
+					"min":0,
+					"max":31
+				},
+				
+				"End ID":
+				{
+					"type":"Integer",
+					"default":9,
+					"min":0,
+					"max":31
+				},
+
+				"Position":
+				{
+					"type":"Float",
+					"default":0.5,
+					"min":0,
+					"max":1
+				},
+
+				"Size":
+				{
+					"type":"Float",
+					"default":0.1,
+					"min":0,
+					"max":1
+				},
+
+				"Fade":
+				{
+					"type":"Float",
+					"default":0.5,
+					"min":0,
+					"max":1
+				},
+
+				"Color":
+				{
+					"type":"Color",
+					"default":[1,1,1,1]
+				}
+			}
+		}
+	}
+}
