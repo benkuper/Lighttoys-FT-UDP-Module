@@ -91,12 +91,6 @@ function moduleParameterChanged(param)
 	}else if(param.name == "alwaysUpdate")
 	{
 		alwaysUpdate = local.parameters.alwaysUpdate.get();
-	}else if(param.name == "isConnected")
-	{
-		if(local.parameters.isConnected.get())
-		{
-			sendMessage("mecho "+(local.parameters.enableEcho.get()?"1":"0"));
-		} 
 	}else if(param.getParent().name == "deviceNames")
 	{
 		if(!updatingNames)
@@ -228,7 +222,6 @@ function color(target, propID, startID, endID, mode, color1, color2)
 
 	if(!alwaysUpdate) 
 	{
-		if(!local.parameters.isConnected.get()) return;
 		sendMessage("leach "+targetMask+","+r1+","+g1+","+b1+","+r2+","+g2+","+b2);
 	}
 }
@@ -256,7 +249,6 @@ function blackOut(target, propID, startID, endID)
 
 	if(!alwaysUpdate)
 	{
-		if(!local.parameters.isConnected.get()) return;
 		var targetMask = getMaskForTarget(target, propId, startID, endID);
 		sendMessage("leach "+targetMask+",0,0,0,0,0,0");
 	}
@@ -300,8 +292,7 @@ function gradient(startID, endID, color1, color2)
 		
 		if(!alwaysUpdate) 
 		{
-			if(!local.parameters.isConnected.get()) return;
-			targetMask = 1 << i;
+				targetMask = 1 << i;
 			sendMessage("leach "+targetMask+","+r+","+g+","+b+","+r+","+g+","+b);
 		}
 	} 
@@ -332,7 +323,6 @@ function point(startID, endID, position, size, fade, color)
 	
 	if(!alwaysUpdate)
 	{
-		if(!local.parameters.isConnected.get()) return;
 		targetMask = 1 << i;
 		sendMessage("leach "+targetMask+","+r+","+g+","+b+","+r+","+g+","+b);
 	}
