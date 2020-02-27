@@ -17,10 +17,7 @@ for(var i=0;i<32;i++)
 
 function init()
 {
-	if(local.parameters.output.remoteHost.get() == "127.0.0.1")
-	{
-		local.parameters.output.remoteHost.set(util.getIPs()[0]);
-	}
+	detectRemote();
 }
 
 
@@ -67,6 +64,10 @@ function sendAllColors()
 
 function moduleParameterChanged(param)
 {
+	if(param.name == "detectRemote")
+	{
+		detectRemote();
+	}
 	if(param.name == "pingAll")
 	{
 		ping("all",0,0,0);
@@ -110,6 +111,15 @@ function moduleParameterChanged(param)
 //Events
 function dataReceived(data)
 {
+	if(data.substring(0,6) == "wassup")
+	{
+		if(!local.parameters.remoteConnected.get())
+		{
+			local.parameters.output.remoteHost.set(data.substring(7, data.length));
+			local.parameters.remoteConnected.set(true);
+		}
+	}
+
 	if(data.substring(0,3) == "GRP")
 	{
 		var dataSplit = data.split(";");
@@ -157,6 +167,25 @@ function dataReceived(data)
 		updatingNames = false;
 
 	}
+}
+
+//Connection function
+function detectRemote()
+{
+	local.parameters.remoteConnected.set(false);
+	
+	var ips = util.getIPs();
+	for(var i=ips.length-1;i>=0;i--)
+	{
+		if(ips[i] == "127.0.0.1") continue;
+		if(local.parameters.remoteConnected.get()) return;
+
+		var b = ips[i].split(".");
+		var broadcast = b[0]+"."+b[1]+"."+b[2]+".255";
+		local.parameters.output.remoteHost.set(broadcast);
+		sendMessage("yo "+local.parameters.input.localPort.get());
+	}
+	
 }
 
 
