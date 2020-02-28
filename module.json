@@ -15,8 +15,8 @@
 
 	"parameters":
 	{
-		"Always Update":{"type": "Boolean", "description":"If checked, will always update using the update rate parameter"},
-		"Enable Echo": { "type": "Boolean", "description":"If checked, the remote will send echo of sent commands. Uncheck when sending a lot of data to optimize bandwidth.", "value":false },
+		"Always Update":{"type": "Boolean", "description":"If checked, will always update using the update rate parameter", "default":true},
+		"Enable Echo": { "type": "Boolean", "description":"If checked, the remote will send echo of sent commands. Uncheck when sending a lot of data to optimize bandwidth.", "default":false },
 		"Detect remote": { "type": "Trigger", "description": "Sends a broadcast packet and detect the connected remote" },
 		"Remote connected": { "type":"Boolean", "description": "Shows if the remote has been detected", "readOnly":true },
 		"Ping All": { "type":"Trigger" },

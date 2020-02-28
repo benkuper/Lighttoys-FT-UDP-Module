@@ -13,7 +13,7 @@ for(var i=0;i<32;i++)
 {
 	colors1[i] = [0,0,0];
 	colors2[i] = [0,0,0];
-	changed = false;
+	changed[i] = false;
 
 	slaveCheckList[i] = false;
 }
