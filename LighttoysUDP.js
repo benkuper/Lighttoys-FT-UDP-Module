@@ -2,6 +2,7 @@ var slaveCheckList = [];
 var pairingMode = false;
 var colors1 = [];
 var colors2 = [];
+var changed = [];
 
 var alwaysUpdate = local.parameters.alwaysUpdate.get();
 var lastUpdateTime = 0;
@@ -12,6 +13,8 @@ for(var i=0;i<32;i++)
 {
 	colors1[i] = [0,0,0];
 	colors2[i] = [0,0,0];
+	changed = false;
+
 	slaveCheckList[i] = false;
 }
 
@@ -48,6 +51,8 @@ function sendAllColors()
 
 	for(var i=0;i<numPaired;i++)
 	{
+		if(!changed[i]) continue;
+
 		//if(!slaveCheckList[i]) continue; //not connected
 		var r1 = colors1[i][0];
 		var g1 = colors1[i][1];
@@ -58,6 +63,8 @@ function sendAllColors()
 
 		var targetMask = 1 << i;
 		sendMessage("leach "+targetMask+","+r1+","+g1+","+b1+","+r2+","+g2+","+b2);
+
+		changed[i] = false;
 	}
 	
 }
@@ -173,6 +180,7 @@ function dataReceived(data)
 function detectRemote()
 {
 	local.parameters.remoteConnected.set(false);
+	sendMessage("yo "+local.parameters.input.localPort.get());
 	
 	var ips = util.getIPs();
 	for(var i=ips.length-1;i>=0;i--)
@@ -230,6 +238,7 @@ function color(target, propID, startID, endID, mode, color1, color2)
 	{
 		if(mode != "b") colors1[propID] = col1;
 		if(mode != "a") colors2[propID] = col2;
+		changed[propID] = true;
 	}
 	else if(target == "range")
 	{
@@ -239,6 +248,7 @@ function color(target, propID, startID, endID, mode, color1, color2)
 		{
 			if(mode != "b") colors1[i] = col1;
 			if(mode != "a") colors2[i] = col2;
+			changed[i] = true;
 		}
 	}else if(target == "all") 
 	{
@@ -246,6 +256,7 @@ function color(target, propID, startID, endID, mode, color1, color2)
 		{
 			if(mode != "b") colors1[i] = col1;
 			if(mode != "a") colors2[i] = col2;
+			changed[i] = true;
 		}
 	}
 
@@ -274,6 +285,7 @@ function blackOut(target, propID, startID, endID)
 	{
 		colors1[i] = [0,0,0];
 		colors2[i] = colors1[i];
+		changed[i] = true;
 	}
 
 	if(!alwaysUpdate)
@@ -318,10 +330,11 @@ function gradient(startID, endID, color1, color2)
 
 		colors1[i] = [r,g,b];
 		colors2[i] = colors1[i];
-		
+		changed[i] = true;
+
 		if(!alwaysUpdate) 
 		{
-				targetMask = 1 << i;
+			targetMask = 1 << i;
 			sendMessage("leach "+targetMask+","+r+","+g+","+b+","+r+","+g+","+b);
 		}
 	} 
@@ -347,6 +360,8 @@ function point(startID, endID, position, size, fade, color)
 		else colors1[i] = [0,0,0];
 
 		colors2[i] = colors1[i];
+
+		changed[i] = true;
 	}
 
 	

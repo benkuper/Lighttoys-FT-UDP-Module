@@ -3,7 +3,7 @@
 	"type":"UDP",
 	"path":"Lighttoys",
 	
-	"version":"1.0.4",
+	"version":"1.0.5",
 	"description":"Control Lighttoys FT devices using the FT Remote and this module !",
 	"url":"https://github.com/benkuper/Lighttoys-FT-UDP-Module",
 	"downloadURL":"https://github.com/benkuper/Lighttoys-FT-UDP-Module/archive/master.zip",
