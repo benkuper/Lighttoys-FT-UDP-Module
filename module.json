@@ -3,7 +3,7 @@
 	"type":"UDP",
 	"path":"Lighttoys",
 	
-	"version":"1.0.5",
+	"version":"1.0.6",
 	"description":"Control Lighttoys FT devices using the FT Remote and this module !",
 	"url":"https://github.com/benkuper/Lighttoys-FT-UDP-Module",
 	"downloadURL":"https://github.com/benkuper/Lighttoys-FT-UDP-Module/archive/master.zip",
@@ -15,15 +15,20 @@
 
 	"parameters":
 	{
-		"Always Update":{"type": "Boolean", "description":"If checked, will always update using the update rate parameter", "default":true},
-		"Enable Echo": { "type": "Boolean", "description":"If checked, the remote will send echo of sent commands. Uncheck when sending a lot of data to optimize bandwidth.", "default":false },
-		"Detect remote": { "type": "Trigger", "description": "Sends a broadcast packet and detect the connected remote" },
 		"Remote connected": { "type":"Boolean", "description": "Shows if the remote has been detected", "readOnly":true },
-		"Ping All": { "type":"Trigger" },
-		"Black Out": { "type": "Trigger" },
-		"Add new pairing group": { "type":"Trigger" },
-		"Add to group": { "type":"Trigger" },
+		"Detect remote": { "type": "Trigger", "description": "Sends a broadcast packet and detect the connected remote" },
+		"Always Update":{"type":"Boolean", "description":"If checked, will always update using the update rate parameter", "default":false},
+		"Enable Echo": { "type":"Boolean", "description":"If checked, the remote will send echo of sent commands. Uncheck when sending a lot of data to optimize bandwidth.", "default":false },
+		"Mode":{"type":"Enum","options": { "Group":"group", "Broadcast":"broadcast"},"readOnly":true},
+		"Is Pairing":{"type":"Boolean", "readOnly":true},
+		"Pair New (Group)": { "type":"Trigger","shortName":"pairNew_Group_"},
+		"Add to existing (Group)": { "type":"Trigger","shortName":"addToExisting_Group_" },
+		"Pair New (Broadcast)": { "type":"Trigger","shortName":"pairNew_Broadcast_" },
+		"Add to existing (Broadcast)": { "type":"Trigger" ,"shortName":"addToExisting_Broadcast_"},
 		"Finish pairing": { "type":"Trigger" },
+		"Blackout":{"type":"Boolean"},
+		"Black Out": { "type": "Trigger" },
+		"Ping All": { "type":"Trigger" },
 
 		"Device Names":
 		{
@@ -70,13 +75,14 @@
 		"autoAdd": false,
 		"Input":
 		{
-			"localPort": 8889
+			"localPort": 9000
 		},
 		"Output":
 		{
 			"local": false,
 			"remotePort": 8888
 		}
+
 	},
 
 	"hideDefaultParameters":
@@ -87,7 +93,13 @@
 		"messageStructure",
 		"firstValueIsTheName",
 		"baudRate",
-		"output/isConnected"
+		"output/isConnected",
+		"output/listenToFeedback",
+		"output/Local",
+		"output/remotePort",
+		"input",
+		"multicastMode",
+		"pass_through"
 	],
 
 
@@ -276,13 +288,13 @@
 					}
 				},
 
-				"Color 1":
+				"Color A":
 				{
 					"type":"Color",
 					"default":[1,0,0,1]
 				},
 
-				"Color 2":
+				"Color B":
 				{
 					"type":"Color",
 					"default":[0,1,0,1],
@@ -377,6 +389,21 @@
 				{
 					"type":"Float",
 					"ui":"time"
+				},
+				"Duration":
+				{
+					"type":"Float",
+					"min":0,
+					"default":0,
+					"ui":"time"
+				},
+				"Brightness":
+				{
+					"type":"Integer",
+					"default":6,
+					"min":1,
+					"max":6,
+
 				}
 
 			}
@@ -444,10 +471,39 @@
 			}
 		},
 
+		"Set Brighteness":
+		{
+			"menu":"",
+			"callback":"brightness",
+			"parameters":
+			{
+				"Level":
+				{
+					"type":"Integer",
+					"min":1,
+					"max":6, 
+				},
+			}
+		},
+
 		"Black Out":
 		{
 			"menu":"",
 			"callback":"blackOut",
+			"parameters":
+			{
+				"Enable":
+				{
+					"type":"Boolean",
+					"default":true
+				},
+			}
+		},
+
+		"Program":
+		{
+			"menu":"Advanced",
+			"callback":"lprog",
 			"parameters":
 			{
 				"Target":
@@ -502,7 +558,189 @@
 						"check":"equals",
 						"action":"show"
 					}
+				},
+
+				"Mode":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"Full":"full",
+						"AB":"ab",
+						"A":"a",
+						"B":"b"
+					}
+				},
+
+				"Pattern":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"Dots":"bank1",
+						"Strobe":"bank2",
+						"Pulse":"bank3",
+						"Fade":"bank4",
+						"Flash":"bank5",
+						"FT1 Dots":"dots",
+						"FT1 Strobe":"strobe",
+						"FT1 Pulse":"pulse",
+						"FT1 Fade":"fade",
+						"FT1 Flash":"flash",
+					},
+						
+				},
+
+				"Position":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"1":"0",
+						"2":"1",
+						"3":"2",
+						"4":"3",
+						"5":"4",
+						"6":"5",
+						"7":"6",
+						"8":"7"
+					},
+					"dependency": 
+					{
+						"source":"pattern", 
+						"value":"bank1",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Position ":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"1":"0",
+						"2":"1",
+						"3":"2",
+						"4":"3",
+						"5":"4",
+						"6":"5",
+						"7":"6",
+						"8":"7"
+					},
+					"dependency": 
+					{
+						"source":"pattern", 
+						"value":"bank2",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Position  ":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"1":"0",
+						"2":"1",
+						"3":"2",
+						"4":"3",
+						"5":"4",
+						"6":"5",
+						"7":"6",
+						"8":"7"
+					},
+					"dependency": 
+					{
+						"source":"pattern", 
+						"value":"bank3",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Position   ":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"1":"0",
+						"2":"1",
+						"3":"2",
+						"4":"3",
+						"5":"4",
+						"6":"5",
+						"7":"6",
+						"8":"7"
+					},
+					"dependency": 
+					{
+						"source":"pattern", 
+						"value":"bank4",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Position    ":
+				{
+					"type":"Enum",
+					"options":
+					{
+						"1":"0",
+						"2":"1",
+						"3":"2",
+						"4":"3",
+						"5":"4",
+						"6":"5",
+						"7":"6",
+						"8":"7"
+					},
+					"dependency": 
+					{
+						"source":"pattern", 
+						"value":"bank5",
+						"check":"equals",
+						"action":"show"
+					}
+				},
+
+				"Speed":
+				{
+					"type":"Integer",
+					"min":1,
+					"max":8,
+					"default":4
+				},
+
+				"Brightness":
+				{
+					"type":"Integer",
+					"min":1,
+					"max":6,
+					"default":6
+				},
+
+				"Color A":
+				{
+					"type":"Color",
+					"default":[1,0,0,1]
+				},
+
+				"Color B":
+				{
+					"type":"Color",
+					"default":[0,1,0,1],
+					"dependency": 
+					{
+						"source":"mode",
+						"value":"ab",
+						"check":"equals",
+						"action":"show"
+					}
 				}
+				
 			}
 		},
 
